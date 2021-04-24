@@ -30,51 +30,34 @@
 		<a href="index.html">首页</a>
 		>
 		<a href="chengyu.html">成语词典</a>
-		><h1 id="word_show"></h1>
-
+		>
+		<h1 id="word"></h1>
 	</div>
-	<div class="index-container">
-		<div class="swiper-container swiper-container-banner">
-			<div class="swiper-slide swiper-slide-active" style="background-image: url('../images/white.png');background-repeat: no-repeat; background-size: cover;min-height: 836px;height: auto; width: 100%;">
-				<div class="info_content zj clearfix">
-					<div class="info_txt2 clearfix" wid>
-<!--					<input type="text" id="cy_detail">-->
-						<p>
-						成语：安不忘危<br>
-						【成语】：安不忘危<br>
-						【拼音】：ān bù wàng wēi<br>
-						【简拼】：abww<br>
-						【解释】：在安全的时候不忘记危难。意思是时刻谨慎小心，提高警惕。<br>
-						【出处】：《周易•系辞下》：“是故君子安而不忘危，存而不忘亡，治而不忘礼，是以身安而国家可保也。”<br>
-						【示例】：何小姐是从苦境里过来的，如今得地身安，安不忘危，立志要成全起这份人家，立番事业。 清·文康《儿女英雄传》第三十回<br>
-						【近义词】：居安思危、常备不懈<br>
-						【反义词】：高枕无忧、麻痹大意<br>
-						【语法】：作谓语、定语；形容平安时不忘危难<br>
-						【英文】：to be mindful of possible danger in time of peace<br>
-						【日文】：無事な時にも危険に用心すること<br>
-						【成语故事】：我国最早的一部占卜书《周易》关于吉凶祸福有深刻的论述，特别在治国方面的解释是相当深刻。真正有远见卓识的人，应该安不忘危，存不忘亡，治不忘乱。只有这样，才能使身家性命和江山社稷才能得以保全<br>
-						<br>
-						安不忘危 典故或故事<br>
-						《易．系辞下》：“是故君子安而不忘危，存而不忘亡，治而不忘乱，是以身安而国家可保也。”太平或平安时，不忘记可能有危险或灾难。汉．刘向《说苑．君道》：“安不忘危，故能终而成霸功焉。”《旧唐书．王方庆传》：“此乃三时务农，一时讲武，以习射御，角校才力，盖王者常事，安不忘危之道也。”《儿女英雄传》三○回：“何小姐是从苦境里过来的，如今得地安身，安不忘危，立志要成全起这分人家，立番事业。”<br>
-						<br>
-						安不忘危 成语接龙<br>
-						【顺接】：危同累卵　危在旦夕　危急关头　危行危言　危言核论　危言危行　危迫利诱　危辞耸听　<br>
-						【顺接】：心所谓危　岌岌可危　力尽神危　於安思危　忘战者危　登高履危　国步艰危　乘人之危　<br>
-						【逆接】：怖鸽获安　盘石之安　能忍自安　居无求安　变危为安　畏难苟安　竹报平安　绿野身安　<br>
-						【逆接】：安心定志　安故重迁　安忍无亲　安分守已　安分随时　安安分分　安闲自在　安于故俗　<br>
+	<div class="swiper-slide swiper-slide-active" style="background-image: url('../images/white.png');background-repeat: no-repeat; background-size: cover;min-height: 836px;height: auto; width: 100%;">
+		<div class="info_content zj clearfix"  style="padding-left:10%;width: 80%;">
+			<style>
+				.title_this{
+					background-color:#ddebff;
+					border-bottom:1px solid #b2c9eb;
+					font-size:20px;
+					padding-left:12px;
+					height:40px;
+					padding-top:4px;
+					padding-bottom:4px;
+					font-weight: bold;
+				}
+				.info_txt2 p1 {
+					font-size: 16px;
+					font-weight: bold;
+				}
 
-
-						查看：「安不忘危」的典故、安不忘危成语故事<br>
-						查看：「安不忘危」在《汉语词典》的解释<br>
-						「安不」开头的成语:<br>
-						安不忘危安不忘危，存不忘亡安不忘虞<br>
-						</p>
-					</div>
-				</div>
+			</style>
+			<h1 id="chengyu_context" class="title_this"></h1>
+			<div id="show_detail_box" class="info_txt2 clearfix" style="font-size: 16px;">
 			</div>
 		</div>
-		<div class="clear"></div>
 	</div>
+	<div class="clear"></div>
 </div>
 
 
@@ -99,7 +82,32 @@
     }
 
     window.onload = function () {
-        var tt = document.getElementById('word_show')
-        tt.innerHTML = GetQueryString('word');
+        getIdiomById({id:GetQueryString('wordId')})
     }
+    function getIdiomById(dataIn) {
+        $.ajax({
+            type: "post",
+            url: "/getIdiomById",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(dataIn),
+            success: function (result) {
+                document.getElementById("chengyu_context").innerHTML = result.idiom
+                document.getElementById("word").innerHTML = result.idiom
+                var str = "<p1>【拼音"+"】：</p1>"+result.idiomPhonetic +"<br>"
+	               str += "<p1>【简拼"+"】：</p1>"+result.simplePhonetic +"<br>"
+	               str += "<p1>【解释"+"】：</p1>"+result.explanation +"<br>"
+	               str += "<p1>【出处"+"】：</p1>"+result.allusion +"<br>"
+	               str += "<p1>【示例"+"】：</p1>"+result.example +"<br>"
+	               str += "<p1>【近义词"+"】：</p1>"+result.similar +"<br>"
+	               str += "<p1>【语法"+"】：</p1>"+result.grammar +"<br>"
+	               str += "<p1>【英文"+"】：</p1>"+result.translation +"<br>"
+
+                document.getElementById("show_detail_box").innerHTML = str;
+            },
+            error: function (msg) {
+                console.log(msg)
+            }
+        });
+    }
+
 </script>

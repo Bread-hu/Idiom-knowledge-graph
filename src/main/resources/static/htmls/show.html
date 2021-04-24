@@ -94,13 +94,20 @@
 		    的所有成语
 	</div>
 	<div class="index-container">
-<!--		<div class="swiper-container swiper-container-banner">-->
 				<div style="background-image: url('../images/white.png');background-repeat: no-repeat; background-size: cover;min-height: 836px;height: auto; width: 100%;overflow: scroll">
-					<div class="info_txt2 clearfix" wid>
-						<a target="_blank" href="show_detail.html?word='安不忘危'">安不忘危</a>
+					<div class="info_content zj clearfix" style="padding-left:10%;width: 60%;">
+						<style>
+							.info_txt2 a{ display:inline-block;
+						            width:125px;height:30px; overflow:hidden;
+									font-size:16px;
+									line-height:30px;
+									white-space:nowrap;
+							}
+						</style>
+						<div id="showIdioms" class="info_txt2 clearfix" >
+					    </div>
 					</div>
 				</div>
-<!--		</div>-->
 		<div class="clear"></div>
 	</div>
 </div>
@@ -128,8 +135,32 @@
         return null;
     }
 
+    function getIdioms(dataIn) {
+        $.ajax({
+            type: "post",
+            url: "/getIdioms",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(dataIn),
+            success: function (result) {
+                var str=""
+                for (i in result){
+	                var url_a="<a target=\"_blank\" href=\"show_detail.html?wordId="+result[i].id+"\"/>"+result[i].idiom+"</a>"
+	                console.log(url_a)
+                    str+=url_a
+
+                }
+                document.getElementById("showIdioms").innerHTML = str;
+            },
+            error: function (msg) {
+                console.log(msg)
+            }
+        });
+    }
+
     window.onload = function () {
         var tt = document.getElementById('alpha')
-        tt.innerHTML = GetQueryString('alphabet');
+	    var alphabet=GetQueryString('alphabet')
+        tt.innerHTML = alphabet
+        getIdioms({firstPhonetic:alphabet})
     }
 </script>
