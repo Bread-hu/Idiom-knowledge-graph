@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<title>jquery ajax</title>
+	<script src="../js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<button onclick="getdata({name:'张三'})">get data</button>
+<p id="test">this is a test</p>
+</body>
+</html>
+<script>
+    function getdata(dataIn) {
+        $.ajax({
+            type: "post",
+            url: "/getdata",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(dataIn),
+            success: function (result) {
+                result = JSON.stringify(result)
+                $("#test").text(result)
+            },
+            error: function (msg) {
+                console.log(msg)
+            }
+        });
+    }
+</script>
