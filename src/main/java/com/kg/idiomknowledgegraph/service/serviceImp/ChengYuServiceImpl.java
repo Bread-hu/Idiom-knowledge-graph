@@ -8,10 +8,7 @@ import com.kg.idiomknowledgegraph.domain.ChengYuMini;
 import com.kg.idiomknowledgegraph.service.ChengYuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ChengYuServiceImpl implements ChengYuService {
